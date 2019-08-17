@@ -1,0 +1,18 @@
+
+note over selain:
+selain alkaa suorittaa js-koodia, jossa lomake-
+elementille luotu tapahtumankäsittelijä
+estää lomakkeen lähetyksen oletusarvoisen
+toiminnan
+end note
+note over selain:
+selaimen suorittama tapahtumankäsittelijä luo
+uuden muistiinpanon, lisää sen muistiinpanojen
+listalle, piirtää ruudun sisällön uudelleen
+ja siirtyy lähettämään uutta muistiinpanoa
+palvelimelle
+end note
+
+selain->palvelin: HTTP POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+palvelin-->selain: HTTP 201 Created
+
