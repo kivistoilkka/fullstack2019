@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import ListCountries from './components/ListCountries'
 import CountryData from './components/CountryData'
+import Weather from './components/Weather'
 
 const App = () => {
   const [countries, setCountries] = useState([])
@@ -31,7 +32,13 @@ const App = () => {
       )
     } else if (countriesToShow.length === 1) {
       return (
-        <CountryData country={countriesToShow[0]} />
+        <div>
+          <CountryData country={countriesToShow[0]} />
+          <Weather
+            country={countriesToShow[0].name}
+            capital={countriesToShow[0].capital}
+          />
+        </div>
       )
     } else {
       return (
