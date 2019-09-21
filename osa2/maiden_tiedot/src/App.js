@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
+const ListCountries = (props) => props.countries.map(country =>
+  <div key={country.name}>
+    {country.name}
+  </div>
+)
+
 const App = () => {
   const [countries, setCountries] = useState([])
 
@@ -11,17 +17,11 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
-
-  const ListCountries = () => countries.map(country =>
-    <div key={country.name}>
-      {country.name}
-    </div>
-  )
   
   return (
     <div>
       find countries <input />
-      <ListCountries />
+      <ListCountries countries={countries} />
     </div>
   )
 }
