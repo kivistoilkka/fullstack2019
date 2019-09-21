@@ -1,42 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
-const ListCountries = (props) => props.countries.map(country =>
-  <div key={country.name}>
-    {country.name}
-  </div>
-)
-
-const CountryData = (props) => {
-  const listLanguages = () => props.country.languages.map(language =>
-    <li key={language.name}>{language.name}</li>)
-
-  return (
-    <div>
-          <h1>{props.country.name}</h1>
-      <div>
-        capital {props.country.capital}
-      </div>
-      <div>
-        population {props.country.population}
-      </div>
-      <div>
-        <h2>languages</h2>
-        <ul>
-          {listLanguages()}
-        </ul>
-      </div>
-      <img src={props.country.flag}
-        width="15%" height="15%"
-        alt={`flag of ${props.country.name}`}
-      />
-    </div>
-  )
-}
+import ListCountries from './components/ListCountries'
+import CountryData from './components/CountryData'
 
 const App = () => {
   const [countries, setCountries] = useState([])
   const [nameFilter, setNameFilter] = useState('')
+
+  useEffect(() => {
+    axios
+      .get('https://restcountries.eu/rest/v2/all')
+      .then(response => {
+        setCountries(response.data)
+      })
+  }, [])
+
+  const handleFilterChange = (event) => {
+    setNameFilter(event.target.value)
+  }
 
   const showData = () => {
     const countriesToShow = countries.filter(country =>
@@ -58,18 +39,6 @@ const App = () => {
       )
     }
   }
-
-  useEffect(() => {
-    axios
-      .get('https://restcountries.eu/rest/v2/all')
-      .then(response => {
-        setCountries(response.data)
-      })
-  }, [])
-
-  const handleFilterChange = (event) => {
-    setNameFilter(event.target.value)
-  }
   
   return (
     <div>
@@ -79,4 +48,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App
