@@ -35,7 +35,10 @@ const App = () => {
       )
     } else {
       return (
-        <ListCountries countries={countriesToShow} />
+        <ListCountries
+          countries={countriesToShow}
+          setNameFilter={setNameFilter}
+        />
       )
     }
   }
