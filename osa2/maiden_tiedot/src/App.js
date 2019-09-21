@@ -9,6 +9,24 @@ const ListCountries = (props) => props.countries.map(country =>
 
 const App = () => {
   const [countries, setCountries] = useState([])
+  const [nameFilter, setNameFilter] = useState('')
+
+  const showData = () => {
+    const countriesToShow = countries.filter(country =>
+      country.name
+        .toLowerCase()
+        .includes(nameFilter.toLowerCase()))
+
+    if (countriesToShow.length > 10) {
+      return(
+        <div>Too many matches, specify another filter</div>
+      )
+    } else {
+      return (
+        <ListCountries countries={countriesToShow} />
+      )
+    }
+  }
 
   useEffect(() => {
     axios
@@ -17,11 +35,15 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
+
+  const handleFilterChange = (event) => {
+    setNameFilter(event.target.value)
+  }
   
   return (
     <div>
-      find countries <input />
-      <ListCountries countries={countries} />
+      find countries <input value={nameFilter} onChange={handleFilterChange} />
+      {showData()}
     </div>
   )
 }
