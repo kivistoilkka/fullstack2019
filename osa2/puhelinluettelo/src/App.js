@@ -33,11 +33,9 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
-
     } else {
       window.alert(`${newName} is already added to phonebook`)
     }
-    
   }
 
   const handleNameChange = (event) => {
@@ -50,6 +48,14 @@ const App = () => {
 
   const handleNameFilter = (event) => {
     setNameFilter(event.target.value)
+  }
+
+  const handleDelete = (removedPerson) => {
+    if (window.confirm(`Delete ${removedPerson.name} ?`)) {
+      personService.remove(removedPerson.id)
+      const newList = persons.filter(person => person.id !== removedPerson.id)
+      setPersons(newList)
+    }
   }
 
   return (
@@ -70,7 +76,12 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} nameFilter={nameFilter} />
+      <Persons
+        persons={persons}
+        nameFilter={nameFilter}
+        personService={personService}
+        handleDelete={handleDelete}
+      />
     </div>
   )
 }
