@@ -34,7 +34,19 @@ const App = () => {
           setNewNumber('')
         })
     } else {
-      window.alert(`${newName} is already added to phonebook`)
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        const person = persons.find(p => p.name === newName)
+        const changedPerson = { ...person, number: newNumber}
+        personService
+          .replace(changedPerson)
+          .then(returnedPerson =>
+            setPersons(persons.map(person => person.id !== changedPerson.id
+              ? person
+              : returnedPerson))
+            )
+        setNewName('')
+        setNewNumber('')
+      }
     }
   }
 
@@ -50,11 +62,10 @@ const App = () => {
     setNameFilter(event.target.value)
   }
 
-  const handleDelete = (removedPerson) => {
+  const deletePerson = (removedPerson) => {
     if (window.confirm(`Delete ${removedPerson.name} ?`)) {
       personService.remove(removedPerson.id)
-      const newList = persons.filter(person => person.id !== removedPerson.id)
-      setPersons(newList)
+      setPersons(persons.filter(person => person.id !== removedPerson.id))
     }
   }
 
@@ -80,7 +91,7 @@ const App = () => {
         persons={persons}
         nameFilter={nameFilter}
         personService={personService}
-        handleDelete={handleDelete}
+        deletePerson={deletePerson}
       />
     </div>
   )

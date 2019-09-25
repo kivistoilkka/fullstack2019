@@ -7,7 +7,7 @@ const Persons = (props) => {
     const rows = () => personsToShow.map(person => 
         <div key={person.name}>
             {person.name} {person.number}
-            <button onClick={() => props.handleDelete(person)}>
+            <button onClick={() => props.deletePerson(person)}>
                 delete
             </button>
         </div>
