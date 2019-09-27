@@ -3,12 +3,15 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import './index.css'
+import Notification from './components/Notification'
 
 const App = () => {
-  const [ persons, setPersons] = useState([]) 
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ nameFilter, setNameFilter ] = useState('')
+  const [ notification, setNotification ] = useState(null)
 
   useEffect(() => {
     personService
@@ -33,6 +36,13 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+      
+      setNotification(
+        `Added ${personObject.name}`
+      )
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(p => p.name === newName)
@@ -46,6 +56,13 @@ const App = () => {
             )
         setNewName('')
         setNewNumber('')
+
+        setNotification(
+          `Changed number of ${changedPerson.name}`
+        )
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       }
     }
   }
@@ -66,12 +83,21 @@ const App = () => {
     if (window.confirm(`Delete ${removedPerson.name} ?`)) {
       personService.remove(removedPerson.id)
       setPersons(persons.filter(person => person.id !== removedPerson.id))
+      
+      setNotification(
+        `Deleted ${removedPerson.name}`
+      )
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={notification} />
 
       <Filter nameFilter={nameFilter} handleNameFilter={handleNameFilter} />
 
