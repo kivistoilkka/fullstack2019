@@ -10,9 +10,7 @@ const Weather = (props) => {
     
     useEffect(() => {
         axios
-            .get('http://api.weatherstack.com/current', {
-                access_key: "YOUR-API-KEY-HERE",
-                query: capital})
+            .get(`http://api.weatherstack.com/current?access_key=dc8b33b73167be22cfeae8d74e6e6a3b&query=${capital}`)
             .then(response => {
                 setTemperature(response.data.current.temperature)
                 setWindSpeed(response.data.current.wind_speed)
@@ -25,7 +23,7 @@ const Weather = (props) => {
 
     return (
         <div>
-            <h2>Weather in {props.capital}</h2>
+            <h2>Weather in {capital}</h2>
             <div>
                 <b>temperature:</b> {temperature} Celsius
             </div>
