@@ -37,6 +37,14 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        .catch(error => {
+          setErrorState(true)
+          setNotification(error.response.data.error)
+          setTimeout(() => {
+            setNotification(null)
+            setErrorState(false)
+          }, 5000)
+        })
       
       setNotification(
         `Added ${personObject.name}`
