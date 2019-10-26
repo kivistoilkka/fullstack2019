@@ -36,6 +36,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setNotification(
+            `Added ${personObject.name}`
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
         })
         .catch(error => {
           setErrorState(true)
@@ -45,13 +51,6 @@ const App = () => {
             setErrorState(false)
           }, 5000)
         })
-      
-      setNotification(
-        `Added ${personObject.name}`
-      )
-      setTimeout(() => {
-        setNotification(null)
-      }, 5000)
     } else {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(p => p.name === newName)
