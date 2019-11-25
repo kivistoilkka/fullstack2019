@@ -82,21 +82,36 @@ test('a blog with no title and url is not added', async () => {
   expect(response.body.length).toBe(helper.initialBlogs.length)
 })
 
-test('deletion of a blog succeeds with status code 204', async () => {
-  const blogsAtStart = await helper.blogsInDb()
-  const blogToDelete = blogsAtStart[0]
-
-  await api
-    .delete(`/api/blogs/${blogToDelete.id}`)
-    .expect(204)
+describe('deletion of a blog', () => {
+  test('succeeds with status code 204 if id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
   
-  const blogsAtEnd = await helper.blogsInDb()
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+  
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
+  
+    const titles = blogsAtEnd.map(r => r.title)
+  
+    expect(titles).not.toContain(blogToDelete.title)
+  })
 
-  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
+  test('fails with status code 400 if id is invalid', async () => {
+    const invalidId = '5a3d5da59070081a82a3445'
 
-  const titles = blogsAtEnd.map(r => r.title)
+    await api
+      .delete(`/api/blogs/${invalidId}`)
+      .expect(400)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+  
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  })
 
-  expect(titles).not.toContain(blogToDelete.title)
 })
 
 afterAll(() => {

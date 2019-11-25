@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const logger = require('../utils/logger')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
@@ -25,8 +26,13 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  try {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  } catch (exception) {
+    logger.error(exception)
+    response.status(400).end()
+  }
 })
 
 module.exports = blogsRouter
