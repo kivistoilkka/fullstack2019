@@ -92,11 +92,9 @@ describe('deletion of a blog', () => {
       .expect(204)
     
     const blogsAtEnd = await helper.blogsInDb()
-  
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length - 1)
   
     const titles = blogsAtEnd.map(r => r.title)
-  
     expect(titles).not.toContain(blogToDelete.title)
   })
 
@@ -106,12 +104,83 @@ describe('deletion of a blog', () => {
     await api
       .delete(`/api/blogs/${invalidId}`)
       .expect(400)
-    
+
     const blogsAtEnd = await helper.blogsInDb()
-  
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
   })
 
+  test('succeeds with status code 204 if blog does not exist', async () => {
+    const validNonexistingId = await helper.nonExistingId()
+
+    await api
+      .delete(`/api/blogs/${validNonexistingId}`)
+      .expect(204)
+    
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  })
+})
+
+describe('modification of a blog', () => {
+  test('succeeds with valid id', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToModify = blogsAtStart[0]
+  
+    const modifiedBlog = {
+      title: blogToModify.title,
+      author: blogToModify.author,
+      url: blogToModify.url,
+      likes: blogToModify.likes + 1
+    }
+  
+    await api.put(`/api/blogs/${blogToModify.id}`)
+    .send(modifiedBlog)
+    .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtStart.length).toBe(blogsAtEnd.length)
+  })
+
+  test('fails with status code 400 if id is invalid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToModify = blogsAtStart[0]
+    const invalidId = '5a3d5da59070081a82a3445'
+  
+    const modifiedBlog = {
+      title: blogToModify.title,
+      author: blogToModify.author,
+      url: blogToModify.url,
+      likes: blogToModify.likes + 1
+    }
+  
+    await api.put(`/api/blogs/${invalidId}`)
+    .send(modifiedBlog)
+    .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtStart.length).toBe(blogsAtEnd.length)
+  })
+
+  test('fails with status code 404 if blog does not exist', async () => {
+    const validNonexistingId = await helper.nonExistingId()
+
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToModify = blogsAtStart[0]
+  
+    const modifiedBlog = {
+      title: blogToModify.title,
+      author: blogToModify.author,
+      url: blogToModify.url,
+      likes: blogToModify.likes + 1
+    }
+  
+    await api.put(`/api/blogs/${validNonexistingId}`)
+    .send(modifiedBlog)
+    .expect(404)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtStart.length).toBe(blogsAtEnd.length)
+  })
 })
 
 afterAll(() => {
