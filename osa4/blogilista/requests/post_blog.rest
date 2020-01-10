@@ -1,10 +1,10 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWUxNGZiY2RiMmRmZmU2NWEyOWE2ZTcwIiwiaWF0IjoxNTc4NjYyNTU3fQ.b6OvjYla9D8mBqD0t3gwoG1E3nHgzqcqGH0RxkBhcHo
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWUxOGM1ZWRkNjBmZTI2YzM1MjAwODYxIiwiaWF0IjoxNTc4NjgyMDQ4fQ.eMaI2pMAUu46TQSCHmr8Ck7aC6ptsgohFEaGl3Ug5GI
 
 {
-  "title": "Vielä yksi tokenin avulla middlewaren kautta käyttäjälle lisätty blogi",
-  "author": "Kirjoittaja",
+  "title": "Neljäs blogi",
+  "author": "Neljäs Kirjoittaja",
   "url": "http://osoite.com/blogi",
   "likes": 0
 }
