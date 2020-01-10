@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNWUxNGZiY2RiMmRmZmU2NWEyOWE2ZTcwIiwiaWF0IjoxNTc4NjYyNTU3fQ.b6OvjYla9D8mBqD0t3gwoG1E3nHgzqcqGH0RxkBhcHo
 
 {
-  "title": "Tokenin avulla middlewaren kautta käyttäjälle lisätty blogi",
+  "title": "Vielä yksi tokenin avulla middlewaren kautta käyttäjälle lisätty blogi",
   "author": "Kirjoittaja",
   "url": "http://osoite.com/blogi",
   "likes": 0
